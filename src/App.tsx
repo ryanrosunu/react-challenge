@@ -36,10 +36,15 @@ const schedule = {
 
 const App = () => {
   return (
-    <header className="bg-[#bf77f6] min-h-screen flex flex-col items-center justify-center text-[calc(10px_+_2vmin)] text-white">
-      <Banner title={schedule.title} />
-      <CourseList courses={schedule.courses} />
-    </header>
+    <>
+      <div className="bg-[#bf77f6] min-h-screen">
+        <header className="flex flex-col items-center text-white">
+          <Banner title={schedule.title} />
+        </header>
+        <CourseList courses={schedule.courses} />
+      </div>
+    </>
+    
   );
 };
 
