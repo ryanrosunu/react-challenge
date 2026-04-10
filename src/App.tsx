@@ -1,8 +1,5 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import Banner from './components/Banner';
-import CourseList from './components/CourseList';
+import TermPage from './components/TermPage';
 import { useJsonQuery } from './utilities/fetch';
 
 const App = () => {
@@ -20,7 +17,7 @@ const App = () => {
       <header className="flex flex-col items-center text-white">
         <Banner title={schedule.title} />
       </header>
-      <CourseList courses={schedule.courses} />
+      <TermPage courses={schedule.courses}/>
     </div>
   );
 }
