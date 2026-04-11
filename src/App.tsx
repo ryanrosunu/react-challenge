@@ -1,5 +1,6 @@
 import Banner from './components/Banner';
 import TermPage from './components/TermPage';
+import { type Course } from './types/Course';
 import { useJsonQuery } from './utilities/fetch';
 
 const App = () => {
@@ -10,7 +11,7 @@ const App = () => {
   if (!json) return <h1>No schedule data found</h1>;
 
   // Type assertion for fetched schedule
-  const schedule = json as { title: string; courses: Record<string, { term: string; number: string; meets: string; title: string }> };
+  const schedule = json as { title: string; courses: Record<string, Course> };
 
   return (
     <div className="bg-[#bf77f6] min-h-screen">
