@@ -7,7 +7,7 @@ interface CourseCardProps {
     onClick: () => void;
 }
 
-const CourseCard = ({ id, course, selected, onClick }: CourseCardProps) => (
+const CourseCard = ({ course, selected, onClick }: CourseCardProps) => (
     <button
         type="button"
         onClick={onClick}
