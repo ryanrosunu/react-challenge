@@ -3,4 +3,5 @@ export type Course = {
     number: string;
     meets: string;
     title: string;
+    conflicts: string[];
 }

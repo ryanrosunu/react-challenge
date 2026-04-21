@@ -4,7 +4,7 @@ import type { SelectedClass } from "./TermPage";
 
 interface TermSelectorProps {
 	selected: string;
-	setSelected: Dispatch<SetStateAction<string>>;
+	setSelected: (term: string) => void;
 	modalOpen: boolean;
 	setModalOpen: Dispatch<SetStateAction<boolean>>;
 	selectedClasses: SelectedClass[];
@@ -29,7 +29,7 @@ const PlanModal = ({ selectedClasses }: { selectedClasses: SelectedClass[] }) =>
         {selectedClasses.map(({ id, course }) => (
           <li key={`schedule-${id}`} className="border-b border-gray-200 pb-2 last:border-b-0 last:pb-0">
             <div className="font-medium">
-              CS {course.number}: {course.title}
+              {course.term} CS {course.number}: {course.title}
             </div>
             <div className="text-sm text-gray-600">{course.meets}</div>
           </li>

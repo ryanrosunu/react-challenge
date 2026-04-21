@@ -4,15 +4,20 @@ interface CourseCardProps {
     id: string;
     course: Course;
     selected: boolean;
+    isSelectable: boolean;
     onClick: () => void;
 }
 
-const CourseCard = ({ course, selected, onClick }: CourseCardProps) => (
+const CourseCard = ({ course, selected, isSelectable, onClick }: CourseCardProps) => (
     <button
         type="button"
         onClick={onClick}
+        disabled={!isSelectable && !selected}
         aria-pressed={selected}
-        className={`m-2 flex min-w-60 flex-1 overflow-hidden rounded border shadow-lg text-left transition ${selected ? 'border-emerald-300 bg-emerald-800/30 ring-2 ring-emerald-300' : 'border-gray-300 bg-transparent'}`}
+        className={`m-2 flex min-w-60 flex-1 overflow-hidden rounded border shadow-lg text-left transition 
+            ${selected ? 'border-emerald-300 bg-emerald-800/30 ring-2 ring-emerald-300' : 'border-gray-300 bg-transparent'}
+            ${course.conflicts.length > 0 && !selected ? 'opacity-50 border-red-500 bg-red-100/20' : ''}
+            ${!isSelectable && !selected ? 'cursor-not-allowed' : 'cursor-pointer'}`}
     >
         <div className="m-2 w-full flex flex-col">
             <div className="mb-2 font-bold">
