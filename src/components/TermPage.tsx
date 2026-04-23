@@ -16,13 +16,26 @@ export interface SelectedClass {
 const TermPage = ({ courses }: TermPageProps) => {
     const [selected, setSelected] = useState('Fall');
     const [modalOpen, setModalOpen] = useState(false);
-    const [selectedClasses, setSelectedClasses] = useState<SelectedClass[]>([]);
-    
+    // Store selected classes per term
+    const [selectedClassesByTerm, setSelectedClassesByTerm] = useState<Record<string, SelectedClass[]>>({});
+
+    // Helper to get current term's selected classes
+    const selectedClasses = selectedClassesByTerm[selected] || [];
+
     const handleTermSelect = (term: string) => {
         setSelected(term);
-        setSelectedClasses([]);
+        // No need to reset selected classes, just switch view
     };
-    
+
+    // Update selected classes for the current term only
+    const setSelectedClasses = (updater: SelectedClass[] | ((prev: SelectedClass[]) => SelectedClass[])) => {
+        setSelectedClassesByTerm(prev => {
+            const prevForTerm = prev[selected] || [];
+            const nextForTerm = typeof updater === 'function' ? (updater as (prev: SelectedClass[]) => SelectedClass[])(prevForTerm) : updater;
+            return { ...prev, [selected]: nextForTerm };
+        });
+    };
+
     const updatedCourses = Object.fromEntries(Object.entries(courses).map(([id, course]) => [id, { ...course, conflicts: [] }]));
     const filteredCourses = Object.fromEntries(Object.entries(updatedCourses).filter(([_, course]) => course.term === selected));
     const selectedIds = selectedClasses.map(s => s.id);

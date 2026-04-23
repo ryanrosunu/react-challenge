@@ -1,4 +1,6 @@
+
 import type { Course } from '../types/Course';
+import { Link } from '@tanstack/react-router';
 
 interface CourseCardProps {
     id: string;
@@ -8,7 +10,7 @@ interface CourseCardProps {
     onClick: () => void;
 }
 
-const CourseCard = ({ course, selected, isSelectable, onClick }: CourseCardProps) => (
+const CourseCard = ({ id, course, selected, isSelectable, onClick }: CourseCardProps) => (
     <button
         type="button"
         onClick={onClick}
@@ -20,8 +22,16 @@ const CourseCard = ({ course, selected, isSelectable, onClick }: CourseCardProps
             ${!isSelectable && !selected ? 'cursor-not-allowed' : 'cursor-pointer'}`}
     >
         <div className="m-2 w-full flex flex-col">
-            <div className="mb-2 font-bold">
+            <div className="mb-2 font-bold flex items-start">
                 {course.term} CS {course.number}
+                <Link
+                    to="/edit/$courseId"
+                    params={{ courseId: id }}
+                    className="ml-auto px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    Edit
+                </Link>
             </div>
             <div className="mb-6">
                 {course.title}
