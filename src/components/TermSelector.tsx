@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import Modal from "./Modal";
-import type { SelectedClass } from "./TermPage";
+import type { SelectedClass } from "../context/CoursesContext";
 
 interface TermSelectorProps {
 	selected: string;

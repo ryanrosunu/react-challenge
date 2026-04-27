@@ -1,15 +1,13 @@
 import CourseCard from './CourseCard';
 import { type Course } from '../types/Course';
-import type { Dispatch, SetStateAction } from 'react';
-import type { SelectedClass } from './TermPage';
+import { useCourses } from '../context/CoursesContext';
 
 interface CourseSelectorProps {
   courses: Record<string, Course>;
-  selectedClasses: SelectedClass[];
-  setSelectedClasses: Dispatch<SetStateAction<SelectedClass[]>>;
 }
 
-const CourseSelector = ({courses, selectedClasses, setSelectedClasses}: CourseSelectorProps) => {
+const CourseSelector = ({ courses }: CourseSelectorProps) => {
+  const { selectedClasses, setSelectedClasses } = useCourses();
 
   const toggleSchedule = (id: string, course: Course) => {
     const isSelected = selectedClasses.some(selectedClass => selectedClass.id === id);

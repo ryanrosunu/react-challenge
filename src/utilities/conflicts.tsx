@@ -34,7 +34,10 @@ export function coursesConflict(course1: Course, course2: Course): boolean {
 export function getConflictingCourses(courses: Record<string, Course>, selectedIds: string[]): Record<string, string[]> {
     const conflicts: Record<string, string[]> = {};
     for (const [id, course] of Object.entries(courses)) {
-        const conflicting = selectedIds.filter(sid => coursesConflict(course, courses[sid]));
+        const conflicting = selectedIds.filter((sid) => {
+            const selectedCourse = courses[sid];
+            return selectedCourse ? coursesConflict(course, selectedCourse) : false;
+        });
         conflicts[id] = conflicting;
     }
     return conflicts;

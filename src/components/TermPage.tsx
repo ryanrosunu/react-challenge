@@ -3,38 +3,25 @@ import CourseSelector from './CourseSelector';
 import { useState } from 'react';
 import { type Course } from '../types/Course';
 import { getConflictingCourses } from '../utilities/conflicts';
+import { useCourses } from '../context/CoursesContext';
 
 interface TermPageProps {
   courses: Record<string, Course>;
 }
 
-export interface SelectedClass {
-  id: string;
-  course: Course;
-}
-
 const TermPage = ({ courses }: TermPageProps) => {
     const [selected, setSelected] = useState('Fall');
     const [modalOpen, setModalOpen] = useState(false);
-    // Store selected classes per term
-    const [selectedClassesByTerm, setSelectedClassesByTerm] = useState<Record<string, SelectedClass[]>>({});
 
-    // Helper to get current term's selected classes
-    const selectedClasses = selectedClassesByTerm[selected] || [];
+    // Use selectedClasses from context
+    const { selectedClasses } = useCourses();
 
     const handleTermSelect = (term: string) => {
         setSelected(term);
         // No need to reset selected classes, just switch view
     };
 
-    // Update selected classes for the current term only
-    const setSelectedClasses = (updater: SelectedClass[] | ((prev: SelectedClass[]) => SelectedClass[])) => {
-        setSelectedClassesByTerm(prev => {
-            const prevForTerm = prev[selected] || [];
-            const nextForTerm = typeof updater === 'function' ? (updater as (prev: SelectedClass[]) => SelectedClass[])(prevForTerm) : updater;
-            return { ...prev, [selected]: nextForTerm };
-        });
-    };
+    // Remove setSelectedClassesByTerm and related logic
 
     const updatedCourses = Object.fromEntries(Object.entries(courses).map(([id, course]) => [id, { ...course, conflicts: [] }]));
     const filteredCourses = Object.fromEntries(Object.entries(updatedCourses).filter(([_, course]) => course.term === selected));
@@ -53,8 +40,6 @@ const TermPage = ({ courses }: TermPageProps) => {
             />
             <CourseSelector
                 courses={coursesWithConflicts}
-                selectedClasses={selectedClasses}
-                setSelectedClasses={setSelectedClasses}
             />
         </>
     );
