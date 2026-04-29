@@ -2,7 +2,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Regex patterns
-const courseNumberPattern = /^\d+(-\d+)?$/;
+const courseNumberPattern = /^\d{3}(-\d)?$/;
 const meetingPattern = /^$|^((M|Tu|W|Th|F)+)\s+\d{1,2}:\d{2}-\d{1,2}:\d{2}$/;
 
 // Zod schema

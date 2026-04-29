@@ -3,18 +3,22 @@ import { useForm, type SubmitErrorHandler, type SubmitHandler } from 'react-hook
 import CourseFormField from './CourseFormField';
 import type { Course } from '../types/Course';
 import { courseEditResolver, type CourseEditSchema } from '../types/courseEdit';
+import { ref, update } from 'firebase/database';
+import { database } from '../utilities/firebase';
 
 interface CourseFormProps {
 	course: Course;
+	courseId: string;
 }
 
-const CourseForm = ({ course }: CourseFormProps) => {
+const CourseForm = ({ course, courseId }: CourseFormProps) => {
 	const navigate = useNavigate();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors, isSubmitting },
+		const {
+			register,
+			handleSubmit,
+			watch,
+			formState: { errors, isSubmitting, isDirty},
 	} = useForm<CourseEditSchema>({
 		defaultValues: {
 			title: course?.title ?? '',
@@ -26,13 +30,43 @@ const CourseForm = ({ course }: CourseFormProps) => {
 		resolver: courseEditResolver,
 	});
 
+	void watch();
+
 	const handleCancel = () => {
 		navigate({ to: '/' });
 	};
 
+	// const onSubmit: SubmitHandler<CourseEditSchema> = async (data) => {
+	// 	update(ref(database, `courses${}`), {
+	// 		title: data.title,
+	// 		term: data.term,
+	// 		number: data.number,
+	// 		meets: data.meets
+	// 	});
+	// };
+
+
 	const onSubmit: SubmitHandler<CourseEditSchema> = async (data) => {
-		console.log('Valid course data:', data);
-		// Add your database update/save logic here later.
+		if (!isDirty) {
+			alert('No changes were made.');
+			console.log("wow")
+			return;
+		}
+
+		try {
+			await update(ref(database, `courses/${courseId}`), {
+				title: data.title,
+				term: data.term,
+				number: data.number,
+				meets: data.meets,
+			});
+
+			alert('Course saved successfully!');
+			navigate({ to: '/' });
+		} catch (error) {
+			console.error('Error saving course:', error);
+			alert('There was an error saving the course.');
+		}
 	};
 
 	const onError: SubmitErrorHandler<CourseEditSchema> = () => {

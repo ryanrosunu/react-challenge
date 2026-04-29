@@ -10,7 +10,7 @@ function EditCourseRoute() {
 
   if (!course) return <h1>Course not found</h1>
 
-  return <CourseForm course={course} />
+  return <CourseForm course={course} courseId={courseId} />
 }
 
 export const Route = createFileRoute('/edit/$courseId')({

@@ -10,7 +10,7 @@ interface TermSelectorProps {
 	selectedClasses: SelectedClass[];
 }
 
-const terms = ["Fall", "Winter", "Spring"];
+const terms = ["Fall", "Winter", "Spring", "Summer"];
 
 const PlanModal = ({ selectedClasses }: { selectedClasses: SelectedClass[] }) => (
   <div className="text-gray-900">
